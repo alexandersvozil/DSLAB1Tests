@@ -1,0 +1,12 @@
+*	startFileServer fs1
+*	startProxy proxy
+*	startClient client
+*	startClient client2
+
+client:	!login alice 12345
+client2: !login bill 23456
+client: !upload upload.txt
+fs1:	!exit
+client2: !download upload.txt
+proxy:	!exit
+client:	!exit

@@ -1,0 +1,10 @@
+*	startFileServer fs1
+*	startProxy proxy
+*	startClient client
+
+client:	!login alice 12345
+client: !upload upllload.txt
+
+client: !exit
+proxy: !exit
+fs1: !exit

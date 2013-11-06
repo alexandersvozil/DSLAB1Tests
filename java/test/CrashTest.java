@@ -52,6 +52,13 @@ public class CrashTest extends AbstractCrashTest{
             e.printStackTrace();
         }
         try {
+            server2.exit();
+        } catch (IOException e) {
+            // This should not happen. In case it does, output the stack trace for easier trouble shooting.
+            System.err.println("This should not happen");
+            e.printStackTrace();
+        }
+        try {
             client.exit();
         } catch (IOException e) {
             // This should not happen. In case it does, output the stack trace for easier trouble shooting.

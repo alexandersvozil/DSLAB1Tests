@@ -30,11 +30,6 @@ public abstract class AbstractCrashTest {
         proxy.exit();
         client.login("alice", "12345");
 
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
-
     }
 
     @Test
@@ -43,10 +38,6 @@ public abstract class AbstractCrashTest {
         String creditsAnswer = client.credits().toString();
         proxy.exit();
         client.credits();
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
     }
 
     @Test
@@ -56,10 +47,6 @@ public abstract class AbstractCrashTest {
         proxy.exit();
         client.list();
 
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
     }
 
     @Test
@@ -69,10 +56,6 @@ public abstract class AbstractCrashTest {
         proxy.exit();
         client.buy(123);
 
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
     }
 
     @Test
@@ -81,11 +64,6 @@ public abstract class AbstractCrashTest {
         String listAnswer2 = client.download("small.txt").toString();
         proxy.exit();
         client.download("long.txt");
-
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
     }
 
     @Test
@@ -94,11 +72,6 @@ public abstract class AbstractCrashTest {
         String listAnswer2 = client.logout().toString();
         proxy.exit();
         client.logout();
-
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
     }
 
     @Test
@@ -109,9 +82,6 @@ public abstract class AbstractCrashTest {
         server2.exit();
         //make request
         client.list();
-        client.exit();
-        client2.exit();
-        proxy.exit();
     }
     @Test
     public void fsCrash_Download() throws  Exception{
@@ -121,11 +91,6 @@ public abstract class AbstractCrashTest {
         server2.exit();
         //make request
         client.download("lol.txt");
-        client.exit();
-        client2.exit();
-        proxy.exit();
-
-
     }
     @Test
     public void fsCrash_Upload() throws Exception{
@@ -135,10 +100,6 @@ public abstract class AbstractCrashTest {
         server2.exit();
         //make request
         client.upload("upload.txt");
-        client.exit();
-        client2.exit();
-        proxy.exit();
-
     }
 
     @Test
@@ -152,10 +113,6 @@ public abstract class AbstractCrashTest {
         String expected2 = "success";
         assertTrue(String.format("Response must contain '%s' but was '%s'", expected2, actual2), actual.contains(expected));
         server2.exit();
-        /*actual = client.upload("upload.txt").toString();
-        expected = "success";
-        assertTrue(String.format("Response must contain '%s' but was '%s'", expected, actual), actual.contains(expected));
-        System.out.println(proxy.fileservers());*/
         server.exit();
         actual = client.download("upload.txt").toString();
         System.out.println(proxy.fileservers());

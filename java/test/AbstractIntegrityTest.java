@@ -5,7 +5,9 @@ import cli.TestInputStream;
 import cli.TestOutputStream;
 import client.IClientCli;
 import message.response.FileServerInfoResponse;
+import message.response.UserInfoResponse;
 import model.FileServerInfo;
+import model.UserInfo;
 import org.hamcrest.core.Is;
 import org.junit.After;
 import org.junit.Before;
@@ -17,6 +19,7 @@ import util.Config;
 import util.Util;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -38,6 +41,20 @@ public abstract class AbstractIntegrityTest {
     IClientCli client;
     IClientCli client2;
 
+    @Test
+    public void test_clientLoggedOutTest() throws Exception {
+        String actual = client.login("alice", "12345").toString();
+        String expected = "success";
+        assertTrue(String.format("Response must contain '%s' but was '%s'", expected, actual), actual.contains(expected));
+        client.exit();
+        UserInfoResponse userInfoResponse = (UserInfoResponse) proxy.users();
+        List<UserInfo> uinfoList = userInfoResponse.getUserInfo();
+        for(UserInfo info: uinfoList){
+            if(info.getName().equals("alice")){
+                assertThat(info.isOnline(),is(false));
+            }
+        }
+    }
 
     @Test
     public void tes_prescribed() throws Exception {
@@ -69,13 +86,6 @@ public abstract class AbstractIntegrityTest {
         actual = client.logout().toString();
         expected = "Successfully logged out.";
         assertTrue(String.format("Response must contain '%s' but was '%s'", expected, actual), actual.contains(expected));
-
-
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
-        proxy.exit();
     }
 
     @Test
@@ -99,12 +109,6 @@ public abstract class AbstractIntegrityTest {
             assertThat(e.getUsage(), is(equalTo(new Long(8))));
 
         }
-        server.exit();
-        server2.exit();
-        client.exit();
-        client2.exit();
-        proxy.exit();
-
     }
 
 
